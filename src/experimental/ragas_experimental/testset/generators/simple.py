@@ -28,7 +28,6 @@ from ragas_experimental.testset.relationships import (
 from ragas_experimental.testset.splitters import HeadlineSplitter
 from ragas_experimental.testset.utils import rng
 
-from ragas._analytics import TestsetGenerationEvent, track
 from ragas.embeddings import embedding_factory
 from ragas.executor import Executor
 from ragas.llms.base import llm_factory
@@ -174,14 +173,5 @@ class SimpleTestGenerator(TestGenerator):
                 )
         results = exec.results()
         results = TestDataset([result for result in results if result is not None])
-        track(
-            TestsetGenerationEvent(
-                event_type="testset_generation",
-                evolution_names=[""],
-                evolution_percentages=[0.0],
-                num_rows=test_size,
-                language="",
-                is_experiment=True,
-            )
-        )
+
         return results
