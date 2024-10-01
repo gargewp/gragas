@@ -1,13 +1,13 @@
 [project]
-name = "ragas"
+name = "gragas"
 dependencies = [
     "numpy",
     "datasets",
     "tiktoken",
-    "langchain",
-    "langchain-core<0.3",
-    "langchain-community",
-    "langchain_openai",
+    "gigachain<0.3",
+    "gigachain-core<0.3",
+    "gigachain-community",
+    "gigachain-openai",
     "openai>1",
     "pysbd>=0.3.4",
     "nest-asyncio",

@@ -10,7 +10,6 @@ from datasets import Dataset
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_openai.embeddings import OpenAIEmbeddings
 
-from ragas._analytics import TestsetGenerationEvent, track, track_was_completed
 from ragas.embeddings.base import (
     BaseRagasEmbeddings,
     LangchainEmbeddingsWrapper,
@@ -231,7 +230,6 @@ class TestsetGenerator:
                 if evolution.evolution_filter is None:
                     evolution.evolution_filter = EvolutionFilter(llm=self.critic_llm)
 
-    @track_was_completed
     def generate(
         self,
         test_size: int,
@@ -313,16 +311,6 @@ class TestsetGenerator:
         test_dataset = TestDataset(test_data=test_data_rows)
         evol_lang = [get_feature_language(e) for e in distributions]
         evol_lang = [e for e in evol_lang if e is not None]
-        track(
-            TestsetGenerationEvent(
-                event_type="testset_generation",
-                evolution_names=[e.__class__.__name__.lower() for e in distributions],
-                evolution_percentages=[distributions[e] for e in distributions],
-                num_rows=len(test_dataset.test_data),
-                language=evol_lang[0] if len(evol_lang) > 0 else "",
-                is_experiment=False,
-            )
-        )
 
         return test_dataset
 
